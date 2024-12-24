@@ -59,6 +59,6 @@ int main()
     {
         code(); // Execute the code function for each test case
     }
-    printf("this code is performed by 22CE119-Keval Shah\n");
+    printf("this code is performed by 22CE119-Keval\n");
     return 0;
 }
