@@ -87,14 +87,14 @@ void solve()
 
     int size = (int)lines.size();
     string inp = lines[size - 1];
-    if (inp.find("->") != std::string::npos) //checks if "->" exists in the strings indicating there is no input string(i.e. empty string)
-    //"->" exists
+    if (inp.find("->") != std::string::npos) // checks if "->" exists in the strings indicating there is no input string(i.e. empty string)
+        //"->" exists
         inp = "";
     else
-        size--;	//input string is present so visit till the second last index of 'lines' in order to get the transitions
+        size--; // input string is present so visit till the second last index of 'lines' in order to get the transitions
 
     vector<pair<ll, pair<ll, char>>> transitions;
-    char delimiter = ' '; //seperation by whitespace
+    char delimiter = ' '; // seperation by whitespace
     string t;
     int j = 0;
     while (j < size)
