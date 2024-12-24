@@ -25,6 +25,8 @@ void err() // func. for common error msg
 
 bool checkForInputString(unordered_map<char, bool> &m, string s) // checks if the input string is made solely of input alphabets or not
 {
+    if (s.empty())
+        return 1;
     for (char x : s)
     {
         if (!m[x])
@@ -73,17 +75,33 @@ void solve()
         ac_states[x] = 1;
     }
     cout << "Transition table :" << endl;
-    vector<pair<ll, pair<ll, char>>> transitions;
+
+    vector<string> lines; // to store all the remaining inputs 1 string per line
     string temp;
-    string inp;
-    char delimiter = ' ';
-    bool gotinp = 0;
     while (getline(cin >> ws, temp))
     {
         if (temp.empty())
             break;
-        stringstream ss(temp); // passing every line and delimit on every whitspace
-        string t;
+        lines.pb(temp);
+    }
+
+    int size = (int)lines.size();
+    string inp = lines[size - 1];
+    if (inp.find("->") != std::string::npos) //checks if "->" exists in the strings indicating there is no input string(i.e. empty string)
+    //"->" exists
+        inp = "";
+    else
+        size--;	//input string is present so visit till the second last index of 'lines' in order to get the transitions
+
+    vector<pair<ll, pair<ll, char>>> transitions;
+    char delimiter = ' '; //seperation by whitespace
+    string t;
+    int j = 0;
+    while (j < size)
+    {
+        if (temp.empty())
+            break;
+        stringstream ss(lines[j++]); // passing every line and delimit on every whitspace
         ll num1, num2;
         char c;
         int fl = 0;
@@ -91,12 +109,6 @@ void solve()
         {
             if (!fl)
             {
-                if (checkForInputString(ip_symbols, t))
-                {
-                    inp = t;
-                    gotinp = 1;
-                    break;
-                }
                 for (char x : t)
                 {
                     int status = charCheck(x);
@@ -142,20 +154,14 @@ void solve()
                 break;
             }
         }
-        if (gotinp)
-            break;
         transitions.pb({num1, {num2, c}}); // stateA --(INPUT SYMBOL)--> stateB
     }
-    // for(auto x:transitions){
-    // cout<<x.first<<" : "<<x.second.first<<" : "<<x.second.second<<endl;
-    // }
 
     if (transitions.size() == 0)
     {
         cout << "NO DFA found!\n";
         return;
     }
-
     //------------------------------------input finish------------------------------------------------
 
     //------------------------------------making dfa--------------------------------------------------
