@@ -241,6 +241,6 @@ int main()
     {
         solve();
     }
-    printf("this code is performed by 22CE119-Keval Shah\n");
+    printf("This code is performed by 22CE119-Keval Shah\n");
     return 0;
 }
