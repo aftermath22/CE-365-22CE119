@@ -72,6 +72,11 @@ void solve()
     {
         ll x;
         cin >> x;
+        if (x < 1 && x > n_st)
+        {
+            cout << "Entered an Invalid Initial State!\n";
+            exit(1);
+        }
         ac_states[x] = 1;
     }
     cout << "Transition table :" << endl;
@@ -190,17 +195,20 @@ void solve()
     {
         bool ok = 0;
         map<char, ll> temp_map = x.second;
-        for (auto &y : temp_map)
+        if (!ac_states[x.first])
         {
-            if (x.first != y.second)
+            for (auto &y : temp_map)
             {
-                ok = 1;
-                break;
+                if (x.first != y.second)
+                {
+                    ok = 1;
+                    break;
+                }
             }
-        }
-        if (!ok)
-        {
-            null_states[x.first] = 1; // finding out null states in dfa
+            if (!ok)
+            {
+                null_states[x.first] = 1; // finding out null states in dfa
+            }
         }
     }
 
