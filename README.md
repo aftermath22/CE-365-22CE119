@@ -21,6 +21,6 @@
 ---
 
 # Practical 3
-![image](https://github.com/user-attachments/assets/2b63e324-22bf-4060-941c-52f5476ab30a)
+![image](https://github.com/user-attachments/assets/2b63e324-22bf-4060-941c-52f5476ab30a) \
 ![image](https://github.com/user-attachments/assets/edff2baf-61bd-4072-b8e8-5fa1e66cc319)
 
