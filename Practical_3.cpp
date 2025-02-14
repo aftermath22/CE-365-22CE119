@@ -246,7 +246,7 @@ void solve(){
     for(auto x:tokens){
         cout<<x.first<<" : "<<x.second<<endl;
     }
-    cout<<endl<<endl<<"INVALIDS LEXEMES...\n"; 
+    cout<<endl<<endl<<"INVALID LEXEMES...\n"; 
     for(auto x:lexemes){
         cout<<x<<endl;
     }
