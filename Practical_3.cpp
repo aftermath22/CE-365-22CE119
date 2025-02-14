@@ -1,148 +1,265 @@
-#include <iostream>
-#include <fstream>
-#include <cctype>
-#include <vector>
-#include <unordered_set>
-#include <unordered_map>
+#include <bits/stdc++.h>
+#define ll long long int
+#define li long int
+#define pb push_back
+#define all(x) x.begin(), x.end()
+#define I "Identifier"
+#define P "Punctuation"
+#define K "Keyword"
+#define C "Constant"
+#define S "String"
+#define O "Operator"
+
 using namespace std;
+unordered_set<string> keywords={
+    "auto", "break", "case", "char", "const", "continue", "default", "do", 
+    "double", "else", "enum", "extern", "float", "for", "goto", "if", 
+    "inline", "int", "long", "register", "restrict", "return", "short", 
+    "signed", "sizeof", "static", "struct", "switch", "typedef", "union", 
+    "unsigned", "void", "volatile", "while", "_Alignas", "_Alignof", 
+    "_Atomic", "_Bool", "_Complex", "_Generic", "_Imaginary", "_Noreturn", 
+    "_Static_assert", "_Thread_local"
+};
 
-// Defining C keywords
-unordered_set<string> keywords = {"int", "char", "return", "if", "else", "while", "for", "break", "continue"};
+unordered_set<string> punctuations={
+    "[", "]", "(", ")", "{", "}",   // Brackets & Parentheses
+    ",", ";", ":",                  // Separators
+    ".", "->",                      // Structure Operators
+    "#",                             // Preprocessor Directive
+    "\"", "'",                       // String & Character Delimiters
+    "\\",                            // Escape Character
+    "?"," "                      // Rarely Used Punctuations
+};
 
-// Defining operators and punctuation
-unordered_set<char> operators = {'+', '-', '*', '/', '=', '<', '>', '!'};
-unordered_set<char> punctuation = {';', ',', '{', '}', '(', ')'};
+unordered_set<string> operators={
+    "+", "-", "*", "/", "%",        // Arithmetic Operators
+    "++", "--",                     // Increment & Decrement Operators
+    "==", "!=", ">", "<", ">=", "<=", // Relational Operators
+    "&&", "||", "!",                // Logical Operators
+    "&", "|", "^", "~", "<<", ">>",  // Bitwise Operators
+    "=", "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "<<=", ">>=", // Assignment Operators
+    "?", ":",                        // Ternary Operator
+    ",",                             // Comma Operator
+    "sizeof",                        // sizeof Operator
+    "&", "*"                         // Address-of and Pointer Dereference Operatorsz
+};
 
-// Symbol table
-unordered_map<string, int> symbolTable;
-
-// Function to check if a string is a keyword or not
-bool isKeyword(const string &word) {
-    return keywords.find(word) != keywords.end();
+bool chkident(string &s){
+    std::regex identifier_regex("^[a-zA-Z_][a-zA-Z0-9_]*$");
+    return std::regex_match(s, identifier_regex);
 }
 
-// Function to check if a token is a valid identifier or not
-bool isValidIdentifier(const string &token) {
-    if (isdigit(token[0])) return false;
-    for (char c : token) {
-        if (!isalnum(c) && c != '_') return false;
-    }
-    return true;
+bool chkconst(string &s) {
+    std::regex number_regex(
+        R"(^([+-]?(0[xX][0-9a-fA-F]+)"         // Hexadecimal constants (0x1A3f)
+        R"(|0[0-7]+)"                          // Octal constants (0123)
+        R"(|[0-9]+(ll|LL|l|L)?)"               // Decimal integers (123, 456L, 42ll)
+        R"(|[0-9]*\.[0-9]+([eE][+-]?[0-9]+)?[fF]?)" // Floating-point (3.14, 2.71F)
+        R"(|[0-9]+[eE][+-]?[0-9]+[fF]?))$)"    // Exponential notation (1.5e3, 4E-2f)
+    );
+    return std::regex_match(s, number_regex);
+
 }
 
-// Function to process tokens
-void processToken(const string &token, int lineNum, vector<string> &tokens, vector<string> &errors) {
-    if (token.empty()) return;
 
-    if (isKeyword(token)) {
-        tokens.push_back("Keyword: " + token);
-    } else if (isdigit(token[0])) {
-        // Check if token is a valid number
-        bool valid = true;
-        for (char c : token) {
-            if (!isdigit(c) && !isalpha(c)) {
-                valid = false;
-                break;
+string buffer="";
+bool isstr=0;
+void chk(string &s,vector<pair<string,string>> &tokens,vector<string> &lexemes){
+    // stringstream ss(s);
+    int n=s.size();
+    if(n==1){
+        if(punctuations.find(s)!=punctuations.end()){
+            tokens.pb({P,s});
+        }
+        else if(operators.find(s)!=operators.end()){
+            tokens.pb({O,s});
+        }
+        else{
+            if(chkident(s)){
+                tokens.pb({I,s});
+            }
+            else if(chkconst(s)){
+                tokens.pb({C,s});
+            }
+            else{
+                lexemes.pb(s);
             }
         }
-        if (valid)
-            tokens.push_back("Constant: " + token);
-        else
-            errors.push_back("Line " + to_string(lineNum) + ": " + token + " invalid lexeme");
-    } else if (isValidIdentifier(token)) {
-        // Identifier processing
-        tokens.push_back("Identifier: " + token);
-        symbolTable[token]++;
-    } else {
-        errors.push_back("Line " + to_string(lineNum) + ": " + token + " invalid identifier");
-    }
-}
-
-// Lexical analyzer function
-void lexicalAnalyzer(const string &filename) {
-    ifstream file(filename);
-    if (!file) {
-        cerr << "Error: Cannot open file." << endl;
         return;
     }
-
-    vector<string> tokens;
-    vector<string> errors;
-    string token = "";
-    char ch;
-    int lineNum = 1;
-    bool inComment = false;
-
-    while (file.get(ch)) {
-        // Handling new lines
-        if (ch == '\n') {
-            lineNum++;
-            continue;
-        }
-
-        // Handling comments
-        if (inComment) {
-            if (ch == '*' && file.peek() == '/') {
-                file.get(ch);
-                inComment = false;
-            }
-            continue;
-        }
-        if (ch == '/' && file.peek() == '*') {
-            file.get(ch);
-            inComment = true;
-            continue;
-        }
-        if (ch == '/' && file.peek() == '/') {
-            while (file.get(ch) && ch != '\n');
-            lineNum++;
-            continue;
-        }
-
-        // Handling tokens
-        if (isalnum(ch) || ch == '_') {
-            token += ch;
-        } else {
-            processToken(token, lineNum, tokens, errors);
-            token = "";
-
-            if (operators.count(ch)) {
-                tokens.push_back("Operator: " + string(1, ch));
-            } else if (punctuation.count(ch)) {
-                tokens.push_back("Punctuation: " + string(1, ch));
-            } else if (!isspace(ch)) {
-                errors.push_back("Line " + to_string(lineNum) + ": " + string(1, ch) + " invalid character");
+    for(int i=0;i<n;i++){
+        string curr;
+        curr+=s[i];
+        if(isstr){
+            buffer+=curr;
+            if(i-1>=0){
+                if(!buffer.empty() && s[i-1]!='\\' && (s[i]==*buffer.begin() || s[i]==*buffer.begin())){
+                    //string terminates
+                    tokens.pb({S,buffer});
+                    buffer="";
+                    isstr=0;
+                }
             }
         }
-    }
-    processToken(token, lineNum, tokens, errors);
-
-    file.close();
-
-    // Printing tokens
-    cout << "TOKENS\n";
-    for (const string &t : tokens) {
-        cout << t << endl;
-    }
-
-    // Printing errors
-    if (!errors.empty()) {
-        cout << "\nLEXICAL ERRORS\n";
-        for (const string &e : errors) {
-            cout << e << endl;
+        else if(!isstr && (curr=="\"" || curr=="\'")){
+            isstr=1;
+            buffer+=curr;
+            continue;
+        }
+        else if(!isstr){
+            if(operators.find(curr)!=operators.end()){
+                if(keywords.find(buffer)!=keywords.end()){
+                    tokens.pb({K,buffer});
+                    buffer="";
+                }
+                else{
+                    //decide if buffer is identifier or constant or invalid
+                    if(chkconst(buffer)){
+                        tokens.pb({C,buffer});
+                        buffer="";
+                    }
+                    else if(chkident(buffer)){
+                        tokens.pb({I,buffer});
+                        buffer="";
+                    }
+                    else if(!buffer.empty()){
+                        lexemes.pb(buffer);
+                        buffer="";
+                    }
+                }
+                tokens.pb({O,curr});
+            }
+            else if(punctuations.find(curr)!=punctuations.end()){
+                if(curr=="." && i-1>=0 && (isdigit(s[i-1]) || s[i-1]=='e')){
+                    buffer+=curr;
+                    continue;
+                }
+                if(keywords.find(buffer)!=keywords.end()){
+                    tokens.pb({K,buffer});
+                    buffer="";
+                }
+                else{
+                    //decide if buffer is identifier or constant or invalid
+                    if(chkconst(buffer)){
+                        tokens.pb({C,buffer});
+                        buffer="";
+                    }
+                    else if(chkident(buffer)){
+                        tokens.pb({I,buffer});
+                        buffer="";
+                    }
+                    else if(!buffer.empty()){
+                        lexemes.pb(buffer);
+                        buffer="";
+                    }
+                }
+                tokens.pb({P,curr});
+            }
+            else{
+                buffer+=curr;
+            }
         }
     }
-
-    // Printing symbol table
-    cout << "\nSYMBOL TABLE ENTRIES\n";
-    int index = 1;
-    for (const auto &entry : symbolTable) {
-        cout << index++ << ") " << entry.first << endl;
+    if(!buffer.empty() && !isstr)
+    {
+        lexemes.pb({buffer});
+        buffer="";
     }
 }
 
-int main() {
-    string filename = "test.c"; // give your C file here with extension(.c)
-    lexicalAnalyzer(filename);
+
+void solve(){
+
+    vector<pair<string,string>> tokens;
+    vector<string> lexemes;
+
+	std::ifstream file("test.c");
+	if(!file){
+		std::cerr<<"Error opening file!\n";
+		exit(1);
+	}
+
+
+	std::stringstream buf;
+	buf<<file.rdbuf();
+	string line;
+
+
+    /*
+        #define I "Identifier"
+        #define P "Punctuation"
+        #define K "Keyword"
+        #define C "Constant"
+        #define S "String"
+        #define O "Operator"
+    */
+
+    bool mcom=0;
+
+	while(getline(buf,line)){
+		// cout<<line<<endl;
+        std::stringstream ss(line);
+        string word;
+        while(ss>>word){
+            cout<<word<<endl;
+
+            //handle single and multi line comments
+            if(mcom && word=="*/"){
+                mcom=0;
+                continue;
+            }
+
+            if(mcom) continue;
+
+            if(word.size()>=2){
+                if(word=="//"){
+                    break;
+                }
+                if(word=="/*"){
+                    mcom=1;
+                    continue;
+                }
+            }
+
+            //actual code
+            if(keywords.find(word)!=keywords.end()){
+                tokens.pb({K,word});
+                continue;
+            }
+            if(operators.find(word)!=operators.end()){
+                tokens.pb({O,word});
+                continue;
+            }
+            if(punctuations.find(word)!=punctuations.end()){
+                tokens.pb({P,word});
+                continue;
+            }
+            if((word[0]=='\"' && word[(int)word.size()-1]=='\"') || (word[0]=='\'' && word[(int)word.size()-1]=='\'')){
+               tokens.pb({S,word});
+                continue;
+            }
+            //chk for identifiers, constants,string and invs
+            chk(word,tokens,lexemes);
+        }
+        // cout<<"---------end---------"<<endl;
+	}
+    for(auto x:tokens){
+        cout<<x.first<<" : "<<x.second<<endl;
+    }
+    cout<<endl<<endl<<"INVALIDS LEXEMES...\n"; 
+    for(auto x:lexemes){
+        cout<<x<<endl;
+    }
+	return;
+}
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    li tc = 1;
+    while (tc--)
+    {	
+		solve();  
+    }
     return 0;
 }
