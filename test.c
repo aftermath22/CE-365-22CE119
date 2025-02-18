@@ -18,3 +18,13 @@ int main()
 	if(a==5) printf("res: \"%f\"",res);
 	return a + b;
 }
+// struct student
+// {
+// int id;
+// float gpa;
+// };
+// void main(){
+// 	student s;
+// 	s.id=10;
+// 	s.gpa=3.5;
+// }

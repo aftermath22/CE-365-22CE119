@@ -162,7 +162,18 @@ void chk(string &s,vector<pair<string,string>> &tokens,vector<string> &lexemes){
     }
     if(!buffer.empty() && !isstr)
     {
-        lexemes.pb({buffer});
+        if(chkconst(buffer)){
+            tokens.pb({C,buffer});
+            buffer="";
+        }
+        else if(chkident(buffer)){
+            tokens.pb({I,buffer});
+            buffer="";
+        } 
+        else if(!buffer.empty()){
+            lexemes.pb(buffer);
+            buffer="";
+        }
         buffer="";
     }
 }
@@ -201,7 +212,7 @@ void solve(){
         std::stringstream ss(line);
         string word;
         while(ss>>word){
-            cout<<word<<endl;
+            // cout<<word<<endl;
 
             //handle single and multi line comments
             if(mcom && word=="*/"){
@@ -246,7 +257,7 @@ void solve(){
     for(auto x:tokens){
         cout<<x.first<<" : "<<x.second<<endl;
     }
-    cout<<endl<<endl<<"INVALIDS LEXEMES...\n"; 
+    cout<<endl<<endl<<"INVALID LEXEMES...\n"; 
     for(auto x:lexemes){
         cout<<x<<endl;
     }
