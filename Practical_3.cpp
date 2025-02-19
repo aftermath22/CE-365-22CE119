@@ -215,7 +215,7 @@ void solve(){
             // cout<<word<<endl;
 
             //handle single and multi line comments
-            if(mcom && word=="*/"){
+            if(mcom && word.size()>=2 && word[word.size()-2]=='*' && word[word.size()-1]=='/'){
                 mcom=0;
                 continue;
             }
@@ -223,10 +223,10 @@ void solve(){
             if(mcom) continue;
 
             if(word.size()>=2){
-                if(word=="//"){
+                if(word[0]=='/' && word[1]=='/'){
                     break;
                 }
-                if(word=="/*"){
+                if(word[0]=='/' && word[1]=='*'){
                     mcom=1;
                     continue;
                 }
