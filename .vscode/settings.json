@@ -3,7 +3,8 @@
         "stdio.h": "c",
         "string": "cpp",
         "iosfwd": "cpp",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "math.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
