@@ -254,13 +254,26 @@ void solve(){
         }
         // cout<<"---------end---------"<<endl;
 	}
+    unordered_set<string> symbol_table;
     for(auto x:tokens){
+        if(x.first==I){
+            symbol_table.insert(x.second);
+        }
         cout<<x.first<<" : "<<x.second<<endl;
     }
-    cout<<endl<<endl<<"INVALID LEXEMES...\n"; 
-    for(auto x:lexemes){
-        cout<<x<<endl;
+    if(!lexemes.empty()){
+        cout<<endl<<endl<<"INVALID LEXEMES...\n"; 
+        for(auto x:lexemes){
+            cout<<x<<endl;
+        }
     }
+    if(!symbol_table.empty()){
+        cout<<endl<<endl<<"Symbol Table Entries...\n"; 
+        for(auto x:symbol_table){
+            cout<<x<<endl;
+        }
+    }
+    cout<<endl;
 	return;
 }
 int main()
@@ -272,5 +285,6 @@ int main()
     {	
 		solve();  
     }
+    cout<<"This program is prepared by 22ce119-Keval Shah\n";
     return 0;
 }
