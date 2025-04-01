@@ -68,9 +68,15 @@
 
 /* First part of user prologue.  */
 #line 1 "practical_9_yacc.y"
+<<<<<<< HEAD
 
 	#include<stdio.h>
 	#include<stdlib.h> 
+=======
+
+	#include<stdio.h>
+	#include<stdlib.h> 
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 
 #line 76 "y.tab.c"
 
@@ -1316,6 +1322,7 @@ yyreturnlab:
 }
 
 #line 21 "practical_9_yacc.y"
+<<<<<<< HEAD
 
 int yyerror(char *msg) 
 { 
@@ -1329,3 +1336,18 @@ int main()
 	yyparse(); 
 	return 0; 
 }
+=======
+
+int yyerror(char *msg) 
+{ 
+	printf("\n-> Invalid string!!\n");  
+	exit(0); 
+} 
+//driver code  
+int main() 
+{ 
+	printf("Enter the string -> ");  
+	yyparse(); 
+	return 0; 
+}
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3

@@ -68,6 +68,7 @@
 
 /* First part of user prologue.  */
 #line 1 "prac10.y"
+<<<<<<< HEAD
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -76,6 +77,16 @@
 // Enable float values in yacc
 void yyerror(const char *s);
 int yylex();
+=======
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+// Enable float values in yacc
+void yyerror(const char *s);
+int yylex();
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 
 #line 81 "y.tab.c"
 
@@ -137,8 +148,13 @@ extern int yydebug;
 union YYSTYPE
 {
 #line 12 "prac10.y"
+<<<<<<< HEAD
 
     int fval;
+=======
+
+    int fval;
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 
 #line 144 "y.tab.c"
 
@@ -1390,6 +1406,7 @@ yyreturnlab:
 }
 
 #line 53 "prac10.y"
+<<<<<<< HEAD
 
 
 // Error handling
@@ -1403,3 +1420,18 @@ int main() {
     yyparse();
     return 0;
 }
+=======
+
+
+// Error handling
+void yyerror(const char *s) {
+    printf("Error: %s\n", s);
+}
+
+// Main function
+int main() {
+    printf("Enter an arithmetic expression: ");
+    yyparse();
+    return 0;
+}
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3

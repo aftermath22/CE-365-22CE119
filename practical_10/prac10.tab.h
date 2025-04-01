@@ -70,8 +70,13 @@ extern int yydebug;
 union YYSTYPE
 {
 #line 12 "prac10.y"
+<<<<<<< HEAD
 
     int fval;
+=======
+
+    int fval;
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 
 #line 77 "y.tab.h"
 

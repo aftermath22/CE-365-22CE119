@@ -443,8 +443,13 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "prac10.l"
 #line 2 "prac10.l"
+<<<<<<< HEAD
 #include "prac10.tab.h"
 
+=======
+#include "prac10.tab.h"
+
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 #line 449 "lex.yy.c"
 #line 450 "lex.yy.c"
 
@@ -665,7 +670,11 @@ YY_DECL
 	{
 #line 6 "prac10.l"
 
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 #line 670 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
@@ -726,28 +735,48 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 8 "prac10.l"
+<<<<<<< HEAD
 { yylval.fval = atoi(yytext); return NUMBER; }
+=======
+{ yylval.fval = atoi(yytext); return NUMBER; }
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 9 "prac10.l"
+<<<<<<< HEAD
 { /* Ignore whitespace */ }
+=======
+{ /* Ignore whitespace */ }
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
 #line 10 "prac10.l"
+<<<<<<< HEAD
 { return 0; }  
+=======
+{ return 0; }  
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 11 "prac10.l"
+<<<<<<< HEAD
 { return yytext[0]; }
+=======
+{ return yytext[0]; }
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 12 "prac10.l"
+<<<<<<< HEAD
 { printf("Invalid character: %s\n", yytext); return 0; }
+=======
+{ printf("Invalid character: %s\n", yytext); return 0; }
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
@@ -1761,8 +1790,15 @@ void yyfree (void * ptr )
 
 #line 14 "prac10.l"
 
+<<<<<<< HEAD
 
 int yywrap() {
     return 1;
 }
+=======
+
+int yywrap() {
+    return 1;
+}
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 

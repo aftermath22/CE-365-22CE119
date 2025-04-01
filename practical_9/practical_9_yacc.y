@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 %{
 	#include<stdio.h>
 	#include<stdlib.h> 
@@ -31,3 +32,38 @@ int main()
 	yyparse(); 
 	return 0; 
 }
+=======
+%{
+	#include<stdio.h>
+	#include<stdlib.h> 
+%}
+
+%token a b i t e NL 
+
+%% 
+stmt: S NL {printf("\n-> Valid string!\n");exit(0);}
+;
+S: i E t S Sdash  
+| 
+a  
+;
+Sdash: e S 
+| 
+; 
+E: b 
+; 
+
+%%
+int yyerror(char *msg) 
+{ 
+	printf("\n-> Invalid string!!\n");  
+	exit(0); 
+} 
+//driver code  
+int main() 
+{ 
+	printf("Enter the string -> ");  
+	yyparse(); 
+	return 0; 
+}
+>>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
