@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 %{
 	#include<stdio.h>
 	#include<stdlib.h> 
@@ -66,4 +65,3 @@ int main()
 	yyparse(); 
 	return 0; 
 }
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3

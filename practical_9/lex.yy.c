@@ -446,13 +446,8 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "practical_9.l"
 #line 3 "practical_9.l"
-<<<<<<< HEAD
 	#include<stdio.h>
 	#include "practical_9_yacc.tab.h" 
-=======
-	#include<stdio.h>
-	#include "practical_9_yacc.tab.h" 
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 #line 452 "lex.yy.c"
 #line 453 "lex.yy.c"
 
@@ -733,66 +728,38 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 8 "practical_9.l"
-<<<<<<< HEAD
 {return i;}
-=======
-{return i;}
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 9 "practical_9.l"
-<<<<<<< HEAD
 {return t;} 
-=======
-{return t;} 
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 10 "practical_9.l"
-<<<<<<< HEAD
 {return a;} 
-=======
-{return a;} 
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 11 "practical_9.l"
-<<<<<<< HEAD
 {return b;} 
-=======
-{return b;} 
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 12 "practical_9.l"
-<<<<<<< HEAD
 {return e;} 
-=======
-{return e;} 
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
 #line 13 "practical_9.l"
-<<<<<<< HEAD
 {return NL;} 
-=======
-{return NL;} 
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 14 "practical_9.l"
-<<<<<<< HEAD
 {return yytext[0];} 
-=======
-{return yytext[0];} 
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
@@ -1806,13 +1773,26 @@ void yyfree (void * ptr )
 
 #line 15 "practical_9.l"
 
-<<<<<<< HEAD
 int yywrap1() 
 { 
 return 1; 
 =======
+%option noyywrap
+%{
+	#include<stdio.h>
+	#include "practical_9_yacc.tab.h" 
+%}
+
+%%
+[i] {return i;}
+[t] {return t;} 
+[a] {return a;} 
+[b] {return b;} 
+[e] {return e;} 
+\n {return NL;} 
+. {return yytext[0];} 
+%%
 int yywrap1() 
 { 
 return 1; 
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
 }

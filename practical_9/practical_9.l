@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 %option noyywrap
 %{
 	#include<stdio.h>
@@ -35,6 +34,5 @@ return 1;
 %%
 int yywrap1() 
 { 
-return 1; 
->>>>>>> 535b2f601e94650058b7aaf1a6b1ae18dc5481d3
+return 1;
 }
